@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: kubenote
+spec:
+  selector:
+    app: kubenote
+  ports:
+    - port: 80
+      targetPort: 3000
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubenote
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kubenote
+  template:
+    metadata:
+      labels:
+        app: kubenote
+    spec:
+      containers:
+        - name: kubenote
+          image: desalbert/kubenote:1.0
+          ports:
+            - containerPort: 3000
+          imagePullPolicy: Always
